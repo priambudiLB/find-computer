@@ -1,3 +1,5 @@
+RUN adduser -D myuser
+USER myuser
 FROM openjdk:8u111-jdk-alpine
 VOLUME /tmp
 ADD /target/myproject-0.0.1-SNAPSHOT.jar app.jar
