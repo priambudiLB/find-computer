@@ -29,10 +29,9 @@ docker-build-deploy:
   - docker push $CONTAINER_GITLAB_IMAGE
   - docker push $CONTAINER_HEROKU_IMAGE
   - apk add --no-cache curl
-    # - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
-    - echo "Docker Image ID is $(cat imageid.txt)"
-    - |-
-      curl -X PATCH https://api.heroku.com/apps/bagas-findcomputer --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_AUTH_TOKEN}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'
+  - echo "Docker Image ID is $(cat imageid.txt)"
+  - |-
+    curl -X PATCH https://api.heroku.com/apps/bagas-findcomputer --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_AUTH_TOKEN}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'
 
 # deploy-to-heroku:
 #   stage: deploy
