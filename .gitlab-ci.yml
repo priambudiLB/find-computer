@@ -3,8 +3,9 @@ services:
   - docker:dind
 
 variables:
-  DOCKER_DRIVER: overlay
-  SPRING_PROFILES_ACTIVE: gitlab-ci
+  CONTAINER_GITLAB_IMAGE: registry.gitlab.com/priambudi/bagas-findcomputer:latest
+  CONTAINER_HEROKU_IMAGE: registry.heroku.com/$HEROKU_USERNAME/bagas-findcomputer:latest
+
 
 stages:
   - build
@@ -22,15 +23,17 @@ maven-build:
 docker-build:
   stage: package
   script:
-  - docker build -t registry.gitlab.com/priambudi/bagas-findcomputer .
+  - docker build -t $CONTAINER_GITLAB_IMAGE .
   - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
-  - docker push registry.gitlab.com/priambudi/bagas-findcomputer
+  - docker push $CONTAINER_GITLAB_IMAGE
 
 deploy-to-heroku:
   stage: deploy
   services:
   - docker:dind
   script:
+    - docker pull $CONTAINER_GITLAB_IMAGE
     - docker login --username=$HEROKU_USERNAME --password=$HEROKU_AUTH_TOKEN registry.heroku.com
-    - docker tag registry.gitlab.com/priambudi/bagas-findcomputer:latest registry.heroku.com/bagas98/bagas-findcomputer:latest
-    - docker push registry.heroku.com/bagas98/bagas-findcomputer:latest
+    - docker tag $CONTAINER_GITLAB_IMAGE $CONTAINER_HEROKU_IMAGE
+    - docker push $CONTAINER_HEROKU_IMAGE
+    - docker run --rm -e HEROKU_API_KEY=<YOUR-HEROKU-AUTH-TOKEN> wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
