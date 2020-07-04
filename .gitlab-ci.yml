@@ -4,7 +4,7 @@ services:
 
 variables:
   CONTAINER_GITLAB_IMAGE: registry.gitlab.com/priambudi/bagas-findcomputer:latest
-  CONTAINER_HEROKU_IMAGE: registry.heroku.com/$HEROKU_USERNAME/bagas-findcomputer:latest
+  CONTAINER_HEROKU_IMAGE: registry.heroku.com/bagas-findcomputer:latest
 
 
 stages:
