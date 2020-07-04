@@ -25,4 +25,12 @@ docker-build:
   - docker build -t registry.gitlab.com/priambudi/bagas-findcomputer .
   - docker login -u gitlab-ci-token -p pSGDGJtAqDqsm3E_x8ce registry.gitlab.com
   - docker push registry.gitlab.com/priambudi/bagas-findcomputer
-  
+
+deploy-to-heroku:
+  stage: deploy
+  services:
+  - docker:dind
+  script:
+    - docker login --email=_ --username=_ --password=<YOUR-HEROKU-AUTH-TOKEN> registry.heroku.com
+    - docker tag registry.gitlab.com/maciejsobala/myApp:latest registry.heroku.com/maciejsobala/myApp:latest
+    - docker push registry.heroku.com/maciejsobala/myApp:latest
