@@ -26,6 +26,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <configuration>
+                    <skipTests>${skip.unit.tests}</skipTests>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
