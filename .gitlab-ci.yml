@@ -8,7 +8,7 @@ variables:
 
 stages:
   - build
-  - test
+  # - test
   - package
 
 maven-build:
@@ -19,18 +19,18 @@ maven-build:
     paths:
       - backend/target/bagas-findcomputer-0.0.1-SNAPSHOT.jar
 
-springboot-test:
-  image: maven:3-jdk-8
-  stage: test
-  script: "cd backend && mvn clean test -P unit-test"
+# springboot-test:
+#   image: maven:3-jdk-8
+#   stage: test
+#   script: "cd backend && mvn clean test -P unit-test"
 
 docker-build-deploy:
   stage: package
   script:
   - docker build -f Dockerfile --iidfile imageid.txt -t $CONTAINER_GITLAB_IMAGE .
-  - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
+  # - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
   - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
-  - docker push $CONTAINER_GITLAB_IMAGE
+  # - docker push $CONTAINER_GITLAB_IMAGE
   - docker tag $CONTAINER_GITLAB_IMAGE $CONTAINER_HEROKU_IMAGE
   - docker push $CONTAINER_HEROKU_IMAGE
   - apk add --no-cache curl
