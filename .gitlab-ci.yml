@@ -20,6 +20,7 @@ maven-build:
       - backend/target/bagas-findcomputer-0.0.1-SNAPSHOT.jar
 
 # springboot-test:
+# heroku deploy:jar target/bagas-findcomputer-0.0.1-SNAPSHOT.jar --app bagas-findcomputer
 #   image: maven:3-jdk-8
 #   stage: test
 #   script: "cd backend && mvn clean test -P unit-test"
