@@ -10,4 +10,4 @@
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 COPY backend/target/bagas-findcomputer-0.0.1-SNAPSHOT.jar bagas-findcomputer-0.0.1-SNAPSHOT.jar
-CMD ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/bagas-findcomputer-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-Dserver.port=$PORT", "-Djava.security.egd=file:/dev/./urandom","-jar","/bagas-findcomputer-0.0.1-SNAPSHOT.jar"]
