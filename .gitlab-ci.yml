@@ -15,7 +15,7 @@ stages:
 maven-build:
   image: maven:3-jdk-8
   stage: build
-  script: "mvn package -B"
+  script: "cd backend && mvn package -B"
   artifacts:
     paths:
       - backend/target/*.jar
