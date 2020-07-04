@@ -18,7 +18,7 @@ maven-build:
   script: "mvn package -B"
   artifacts:
     paths:
-      - target/*.jar
+      - backend/target/*.jar
 
 docker-build:
   stage: package
@@ -34,7 +34,7 @@ deploy-to-heroku:
   script:
     - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
     - docker pull $CONTAINER_GITLAB_IMAGE
-    - docker login --username=$HEROKU_USERNAME --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+    - docker login -u $HEROKU_USERNAME -p $HEROKU_AUTH_TOKEN registry.heroku.com
     - docker tag $CONTAINER_GITLAB_IMAGE $CONTAINER_HEROKU_IMAGE
     - docker push $CONTAINER_HEROKU_IMAGE
     - docker run --rm -e HEROKU_API_KEY=<YOUR-HEROKU-AUTH-TOKEN> wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
