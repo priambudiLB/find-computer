@@ -37,4 +37,4 @@ deploy-to-heroku:
     - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
     - docker tag $CONTAINER_GITLAB_IMAGE $CONTAINER_HEROKU_IMAGE
     - docker push $CONTAINER_HEROKU_IMAGE
-    - docker run --rm -e HEROKU_API_KEY=$HEROKU_AUTH_TOKEN wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
+    - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
