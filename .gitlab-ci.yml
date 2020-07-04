@@ -10,7 +10,7 @@ variables:
 stages:
   - build
   - package
-  - deploy
+  # - deploy
 
 maven-build:
   image: maven:3-jdk-8
@@ -20,21 +20,32 @@ maven-build:
     paths:
       - backend/target/*.jar
 
-docker-build:
+docker-build-deploy:
   stage: package
   script:
-  - docker build -t $CONTAINER_GITLAB_IMAGE .
+  - docker build -f Dockerfile --iidfile imageid.txt -t $CONTAINER_GITLAB_IMAGE .
   - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
+  - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
   - docker push $CONTAINER_GITLAB_IMAGE
+  - docker push $CONTAINER_HEROKU_IMAGE
+  - apk add --no-cache curl
+    # - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
+    - echo "Docker Image ID is $(cat imageid.txt)"
+    - |-
+      curl -X PATCH https://api.heroku.com/apps/bagas-findcomputer --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_AUTH_TOKEN}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'
 
-deploy-to-heroku:
-  stage: deploy
-  services:
-  - docker:dind
-  script:
-    - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
-    - docker pull $CONTAINER_GITLAB_IMAGE
-    - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
-    - docker tag $CONTAINER_GITLAB_IMAGE $CONTAINER_HEROKU_IMAGE
-    - docker push $CONTAINER_HEROKU_IMAGE
-    - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
+# deploy-to-heroku:
+#   stage: deploy
+#   services:
+#   - docker:dind
+#   script:
+#     - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
+#     - docker pull $CONTAINER_GITLAB_IMAGE
+#     - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+#     - docker tag $CONTAINER_GITLAB_IMAGE $CONTAINER_HEROKU_IMAGE
+#     - docker push $CONTAINER_HEROKU_IMAGE
+#     - apk add --no-cache curl
+#     # - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app bagas-findcomputer
+#     - echo "Docker Image ID is $(cat imageid.txt)"
+#     - |-
+#       curl -X PATCH https://api.heroku.com/apps/bagas-findcomputer --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_AUTH_TOKEN}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'
