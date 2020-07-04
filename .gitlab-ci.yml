@@ -17,7 +17,7 @@ maven-build:
   script: "cd backend && mvn package -B"
   artifacts:
     paths:
-      - backend/target/*.jar
+      - backend/target/bagas-findcomputer-0.0.1-SNAPSHOT.jar
 
 springboot-test:
   image: maven:3-jdk-8
