@@ -12,4 +12,4 @@ RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 ARG JAR_FILE=backend/target/bagas-findcomputer-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
-CMD ["java -Xmx300m -Xss512k -jar app.jar"]
+ENTRYPOINT ["java -Xmx300m -Xss512k -jar app.jar"]
