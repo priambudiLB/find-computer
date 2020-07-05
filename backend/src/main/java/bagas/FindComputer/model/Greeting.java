@@ -1,4 +1,4 @@
-package com.example.restservice;
+package bagas.FindComputer.model;
 
 public class Greeting {
 

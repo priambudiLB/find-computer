@@ -1,13 +1,14 @@
-package com.example.restservice;
+package bagas.FindComputer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-public class RestServiceApplication {
+public class FindComputerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RestServiceApplication.class, args);
+        SpringApplication.run(FindComputerApplication.class, args);
     }
 
 }
