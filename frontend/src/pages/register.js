@@ -8,7 +8,7 @@ const RegisterPage = () => (
   <Layout>
     <SEO title="Login" />
     <div className="real-center">
-      <div className="border border-primary padding-large" style={{ width: "30rem" }}>
+    <div className="border border-primary padding-large">
         <div className="card-body">
           <h4 className="card-title">Register</h4>
           <form id="register-form">
@@ -39,6 +39,10 @@ const RegisterPage = () => (
               </div>
             </div>
           </form>
+          <h5 className="card-subtitle">Have an account? <Link to="/login"
+            style={{
+              textDecoration: `none`,
+            }}>Login</Link></h5>
           <button aria-label="register" className="background-primary" type="submit" form="register-form">Register</button>
         </div>
       </div>

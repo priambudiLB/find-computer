@@ -8,7 +8,7 @@ const LoginPage = () => (
   <Layout>
     <SEO title="Login" />
     <div className="real-center">
-      <div className="border border-primary padding-large" style={{ width: "25rem" }}>
+      <div className="border border-primary padding-large">
         <div className="card-body">
           <h4 className="card-title">Login</h4>
           <form id="login-form">
@@ -22,7 +22,7 @@ const LoginPage = () => (
               <div className="col sm-6">
                 <div className="form-group">
                   <label htmlFor="inputPassword">Password</label>
-                  <input type="password" placeholder="..." id="inputPassword" />
+                  <input type="password" placeholder="" id="inputPassword" />
                 </div>
               </div>
             </div>

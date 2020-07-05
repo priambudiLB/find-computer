@@ -1,6 +1,9 @@
 .real-center {
   width: 30rem;
-  margin-top: 20vh;
+  padding-top: 20vh;
+  padding-bottom: 10vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
   margin-left: auto;
   margin-right: auto;
   position:absolute;

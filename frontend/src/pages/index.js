@@ -6,35 +6,35 @@ const axios = require('axios').default;
 
 const datas = [
   {
-    title: "RAM terbagus",
+    name: "RAM terbagus",
     category: "RAM",
     price: 100000,
     description: "RAM terbagus se-Indonesia.",
     owner: 1
   },
   {
-    title: "Processor terbagus",
+    name: "Processor terbagus",
     category: "Processor",
     price: 100000,
     description: "Processor terbagus se-Indonesia.",
     owner: 1
   },
   {
-    title: "VGA terbagus",
+    name: "VGA terbagus",
     category: "VGA",
     price: 100000,
     description: "VGA terbagus se-Indonesia.",
     owner: 1
   },
   {
-    title: "Motherboard terbagus",
+    name: "Motherboard terbagus",
     category: "Motherboard",
     price: 100000,
     description: "Motherboard terbagus se-Indonesia.",
     owner: 1
   },
   {
-    title: "Storage terbagus",
+    name: "Storage terbagus",
     category: "Storage",
     price: 100000,
     description: "Storage terbagus se-Indonesia.",
@@ -70,7 +70,7 @@ const ItemCards = ({data}) => data.map((item, index)=>{
 const IndexPage = () => {
   const [item, setItem] = useState([]);
   useEffect(()=>{
-    axios.get('http://54.169.240.40:5000/api/item/all')
+    axios.get('http://54.169.240.40:5000/api/item/all', { timeout: 5000})
   .then(function (response) {
     // handle success
     setItem(response.data)
@@ -79,6 +79,7 @@ const IndexPage = () => {
   .catch(function (error) {
     // handle error
     console.log(error);
+    setItem(datas)
   })
   .finally(function () {
     // always executed
