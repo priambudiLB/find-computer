@@ -39,9 +39,6 @@ gatsby-build:
 
 docker-build-deploy:
   stage: deploy
-  only:
-    changes:
-      - "backend/**/*"
   script:
   - docker build -f Dockerfile --iidfile imageid.txt -t $CONTAINER_HEROKU_IMAGE .
   - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
@@ -53,9 +50,6 @@ docker-build-deploy:
 gatsby-deploy:
   image: python:latest
   stage: deploy
-  only:
-    changes:
-      - "frontend/**/*"
   script:
     - cd frontend
     - pip install awscli
