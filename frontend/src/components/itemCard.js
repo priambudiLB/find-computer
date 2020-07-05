@@ -1,6 +1,7 @@
 import React from "react"
 
 const parseCategoryToColor = (cat) => {
+    if(cat===undefined) return "#fff"
     const category = cat.toLowerCase();
     if (category === "ram"){
         return "#2d132c";

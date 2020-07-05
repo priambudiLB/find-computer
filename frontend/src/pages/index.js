@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import ItemCard from "../components/itemCard"
+const axios = require('axios').default;
 
 const datas = [
   {
@@ -41,23 +42,54 @@ const datas = [
   }
 ]
 
+const parseCategoryIdToCategory = (id) => {
+  if (id === 1){
+      return "RAM";
+  } else if (id === 2){
+      return "Processor";
+    } else if (id === 3){
+      return "VGA";
+    } else if (id === 4){
+      return "Motherboard";
+    } else if (id === 5){
+      return "Storage";
+  }
+}
+
 const ItemCards = ({data}) => data.map((item, index)=>{
-  const { title, category, price, description } = item;
+  const { name, categoryId, price, description } = item;
+  const category = parseCategoryIdToCategory(categoryId);
   return <ItemCard 
     key={index}
-    title={title}
+    title={name}
     category={category}
     price={price}
     description={description}
   />
 })
-const IndexPage = () => (
-  <Layout>
+const IndexPage = () => {
+  const [item, setItem] = useState([]);
+  useEffect(()=>{
+    axios.get('http://54.169.240.40:5000/api/item/all')
+  .then(function (response) {
+    // handle success
+    setItem(response.data)
+    console.log(response);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .finally(function () {
+    // always executed
+  });
+  },[])
+  return <Layout>
     <SEO title="Home" />
     <div className="row" style={{ marginTop: '10vh'}}>
-      <ItemCards data={datas}/>
+      <ItemCards data={item}/>
     </div>
   </Layout>
-)
+}
 
 export default IndexPage
