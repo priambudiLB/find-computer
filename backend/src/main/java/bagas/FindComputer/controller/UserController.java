@@ -3,7 +3,6 @@ package bagas.FindComputer.controller;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import bagas.FindComputer.model.Item;
 import bagas.FindComputer.model.User;
 import bagas.FindComputer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class UserController {
         try {
             User u = new User();
             u.setName(name);
-            u.setUsername(username);
+            u.setEmail(username);
             userRepository.save(u);
             return "Saved";
         } catch (
