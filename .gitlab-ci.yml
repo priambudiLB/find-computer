@@ -15,9 +15,6 @@ stages:
 maven-build:
   image: maven:3-jdk-8
   stage: build
-  only:
-    changes:
-      - "backend/**/*"
   script: "cd backend && mvn package -B"
   artifacts:
     paths:
@@ -29,9 +26,6 @@ gatsby-build:
     - cd frontend
     - npm install
     - npm run-script build
-  only:
-    changes:
-      - "frontend/**/*"
   artifacts:
     paths:
       - frontend/public
