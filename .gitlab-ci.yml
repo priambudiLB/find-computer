@@ -10,7 +10,7 @@ variables:
 stages:
   - build
   # - test
-  - package
+  - deploy
 
 maven-build:
   image: maven:3-jdk-8
@@ -44,7 +44,7 @@ gatsby-build:
 #   script: "cd backend && mvn clean test -P unit-test"
 
 docker-build-deploy:
-  stage: package
+  stage: deploy
   only:
     changes:
       - "backend/**/*"
