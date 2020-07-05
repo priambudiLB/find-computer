@@ -10,5 +10,6 @@
 FROM adoptopenjdk/openjdk8-openj9:alpine-slim
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
-COPY backend/target/bagas-findcomputer-0.0.1-SNAPSHOT.jar bagas-findcomputer-0.0.1-SNAPSHOT.jar
-CMD ["java $JAVA_OPTS -Xmx300m -Xss512k -jar bagas-findcomputer-0.0.1-SNAPSHOT.jar $JAR_OPTS"]
+ARG JAR_FILE=backend/target/bagas-findcomputer-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} app.jar
+CMD ["java -Xmx300m -Xss512k -jar app.jar"]
