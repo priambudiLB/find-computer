@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class User implements Serializable {
@@ -12,7 +11,8 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String role;
+
+    private Integer isLoggedIn;
     private String name;
     private String email;
 
@@ -20,16 +20,20 @@ public class User implements Serializable {
     @JsonIgnore
     private String password;
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }
 
-    public String getRole() {
-        return role;
+    public Integer getIsLoggedIn() {
+        return isLoggedIn;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setIsLoggedIn(Integer isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
     }
 
     public String getName() {

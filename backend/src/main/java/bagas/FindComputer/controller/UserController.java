@@ -1,5 +1,6 @@
 package bagas.FindComputer.controller;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
+    final Integer LOGGED_IN = 1;
+    final Integer LOGGED_OUT = 0;
 
     @Autowired
     private UserRepository userRepository;
@@ -54,10 +57,61 @@ public class UserController {
             consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
             produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
             )
-    public String update(User i) {
+    public String update(@RequestParam Map<String, String> paramMap) {
         try {
-            userRepository.save(i);
+            Integer userId = Integer.parseInt(paramMap.get("id"));
+            User u = userRepository.findById(userId).get();
+            paramMap.forEach((k, v) -> {
+                if (k.equals("name")) {
+                    u.setName(v);
+                } else if (k.equals("email")) {
+                    u.setEmail(v);
+                }
+            });
+            userRepository.save(u);
             return "Updated";
+        } catch (
+                NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(
+            path="/login",
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
+            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+    )
+    public String login(@RequestParam Map<String, String> paramMap) {
+        try {
+            Integer userId = Integer.parseInt(paramMap.get("id"));
+            String requestPassword = paramMap.get("password");
+            String userPassword = userRepository.getPasswordById(userId).get();
+            if (requestPassword.equals(userPassword)) {
+                User u = userRepository.findById(userId).get();
+                u.setIsLoggedIn(LOGGED_IN);
+                userRepository.save(u);
+                return "Logged in";
+            } else {
+                return "Password missmatch";
+            }
+        } catch (
+                NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(
+            path="/logout",
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
+            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+    )
+    public String logout(@RequestParam Map<String, String> paramMap) {
+        try {
+            Integer userId = Integer.parseInt(paramMap.get("id"));
+            User u = userRepository.findById(userId).get();
+            u.setIsLoggedIn(LOGGED_OUT);
+            userRepository.save(u);
+            return "Logged out";
         } catch (
                 NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.OK);
