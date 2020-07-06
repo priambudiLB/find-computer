@@ -5,14 +5,16 @@ import React from "react"
 const Header = ({ siteTitle }) => (
   <nav className=" fixed border fixed split-nav">
     <div className="nav-brand">
-      <h3><Link
-        to="/"
-        style={{
-          textDecoration: `none`,
-        }}
-      >
-        {siteTitle}
-      </Link></h3>
+      <h3>
+        <Link
+          to="/"
+          style={{
+            textDecoration: `none`,
+          }}
+        >
+          {siteTitle}
+        </Link>
+      </h3>
     </div>
     <div className="collapsible">
       <input id="collapsible1" type="checkbox" name="collapsible1" />
@@ -25,14 +27,16 @@ const Header = ({ siteTitle }) => (
       </button>
       <div className="collapsible-body">
         <ul className="inline">
-          <li><Link
-            to="/login"
-            style={{
-              textDecoration: `none`,
-            }}
-          >
-            Login
-        </Link></li>
+          <li>
+            <Link
+              to="/login"
+              style={{
+                textDecoration: `none`,
+              }}
+            >
+              Login
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

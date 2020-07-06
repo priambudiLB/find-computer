@@ -16,7 +16,11 @@ const LoginPage = () => (
               <div className="col sm-6">
                 <div className="form-group">
                   <label htmlFor="inputEmail">Email</label>
-                  <input type="email" placeholder="email@example.com" id="inputEmail" />
+                  <input
+                    type="email"
+                    placeholder="email@example.com"
+                    id="inputEmail"
+                  />
                 </div>
               </div>
               <div className="col sm-6">
@@ -27,11 +31,25 @@ const LoginPage = () => (
               </div>
             </div>
           </form>
-          <h5 className="card-subtitle">Don't have an account? <Link to="/register"
-            style={{
-              textDecoration: `none`,
-            }}>Register</Link></h5>
-          <button aria-label="login" className="background-primary" type="submit" form="login-form">Login</button>
+          <h5 className="card-subtitle">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              style={{
+                textDecoration: `none`,
+              }}
+            >
+              Register
+            </Link>
+          </h5>
+          <button
+            aria-label="login"
+            className="background-primary"
+            type="submit"
+            form="login-form"
+          >
+            Login
+          </button>
         </div>
       </div>
     </div>

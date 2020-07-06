@@ -17,8 +17,8 @@ module.exports = {
       resolve: `gatsby-plugin-s3`,
       options: {
         bucketName: "find-computer",
-        region: 'ap-southeast-1',
-        acl: 'public-read'
+        region: "ap-southeast-1",
+        acl: "public-read",
       },
     },
     `gatsby-transformer-sharp`,
