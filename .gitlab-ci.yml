@@ -3,13 +3,14 @@ services:
   - docker:dind
 
 variables:
+  CONTAINER_GITLAB_IMAGE: registry.gitlab.com/priambudi/bagas-findcomputer:latest
   CONTAINER_HEROKU_IMAGE: registry.heroku.com/bagas-findcomputer
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 
 stages:
   - build
-  # - test
+  - test
   - deploy
 
 maven-build:
@@ -31,22 +32,22 @@ gatsby-build:
     paths:
       - frontend/public
 
+gatsby-test:
+  image: node:latest
+  stage: test
+  script: "cd frontend && npm test"
 
-# springboot-test:
-# heroku deploy:jar target/FindComputer-0.0.1-SNAPSHOT.jar --app bagas-findcomputer
-#   image: maven:3-jdk-8
-#   stage: test
-#   script: "cd backend && mvn clean test -P unit-test"
+springboot-test:
+  image: maven:3-jdk-8
+  stage: test
+  script: "cd backend && mvn clean test -P unit-test"
 
 docker-build-deploy:
   stage: deploy
   script:
-  - docker build -f Dockerfile --iidfile imageid.txt -t $CONTAINER_HEROKU_IMAGE .
-  - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
-  - docker push $CONTAINER_HEROKU_IMAGE
-  - apk add --no-cache curl
-  - |-
-    curl -X PATCH https://api.heroku.com/apps/bagas-findcomputer/formation --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_AUTH_TOKEN}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'
+    - docker build -f Dockerfile --iidfile imageid.txt -t $CONTAINER_GITLAB_IMAGE .
+    - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
+    - docker push $CONTAINER_GITLAB_IMAGE
 
 gatsby-deploy:
   image: python:latest

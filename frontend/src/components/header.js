@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import React from "react"
 
 const Header = ({ siteTitle }) => (
-  <nav className=" fixed border fixed split-nav">
+  <nav className="fixed border fixed split-nav">
     <div className="nav-brand">
       <h3>
         <Link

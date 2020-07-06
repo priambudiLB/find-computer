@@ -3,6 +3,7 @@ module.exports = {
     title: `Find Computer`,
     description: `Find your computer needs.`,
     author: `Priambudi Lintang Bagaskara`,
+    siteUrl: `https://find-computer.priambudi.fyi`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
