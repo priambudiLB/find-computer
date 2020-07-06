@@ -22,14 +22,19 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(path="/add")
-    public String addUser(@RequestParam String name, @RequestParam String username) {
+    @PostMapping(path="/register")
+    public User register(@RequestParam Map<String, String> paramMap) {
         try {
+            String userName = paramMap.get("naame");
+            String userEmail = paramMap.get("email");
+            String userPassword = paramMap.get("password");
             User u = new User();
-            u.setName(name);
-            u.setEmail(username);
+            u.setName(userName);
+            u.setEmail(userEmail);
+            u.setPassword(userPassword);
+            u.setIsLoggedIn(1);
             userRepository.save(u);
-            return "Saved";
+            return u;
         } catch (
                 NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.OK);
@@ -81,18 +86,18 @@ public class UserController {
             consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
             produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
     )
-    public String login(@RequestParam Map<String, String> paramMap) {
+    public User login(@RequestParam Map<String, String> paramMap) {
         try {
-            Integer userId = Integer.parseInt(paramMap.get("id"));
+            String userEmail = paramMap.get("email");
             String requestPassword = paramMap.get("password");
-            String userPassword = userRepository.getPasswordById(userId).get();
+            String userPassword = userRepository.getPasswordByEmail(userEmail).get();
             if (requestPassword.equals(userPassword)) {
-                User u = userRepository.findById(userId).get();
+                User u = userRepository.findByEmail(userEmail).get();
                 u.setIsLoggedIn(LOGGED_IN);
                 userRepository.save(u);
-                return "Logged in";
+                return u;
             } else {
-                return "Password missmatch";
+                return new User();
             }
         } catch (
                 NoSuchElementException e) {
@@ -107,8 +112,8 @@ public class UserController {
     )
     public String logout(@RequestParam Map<String, String> paramMap) {
         try {
-            Integer userId = Integer.parseInt(paramMap.get("id"));
-            User u = userRepository.findById(userId).get();
+            String userEmail = paramMap.get("email");
+            User u = userRepository.findByEmail(userEmail).get();
             u.setIsLoggedIn(LOGGED_OUT);
             userRepository.save(u);
             return "Logged out";

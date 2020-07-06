@@ -13,6 +13,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("update User u set u.isLoggedIn = :isLoggedIn where u.id = :id")
     void setIsLoggedIn(Integer isLoggedIn, Integer id);
 
-    @Query("select u.password from User u where u.id = :id")
-    Optional<String> getPasswordById(Integer id);
+    @Query("select u.password from User u where u.email = :email")
+    Optional<String> getPasswordByEmail(String email);
 }
