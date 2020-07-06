@@ -7,35 +7,35 @@ const axios = require("axios").default
 const datas = [
   {
     name: "RAM terbagus",
-    category: "RAM",
+    category: "1",
     price: 100000,
     description: "RAM terbagus se-Indonesia.",
     owner: 1,
   },
   {
     name: "Processor terbagus",
-    category: "Processor",
+    category: "2",
     price: 100000,
     description: "Processor terbagus se-Indonesia.",
     owner: 1,
   },
   {
     name: "VGA terbagus",
-    category: "VGA",
+    category: "3",
     price: 100000,
     description: "VGA terbagus se-Indonesia.",
     owner: 1,
   },
   {
     name: "Motherboard terbagus",
-    category: "Motherboard",
+    category: "4",
     price: 100000,
     description: "Motherboard terbagus se-Indonesia.",
     owner: 1,
   },
   {
     name: "Storage terbagus",
-    category: "Storage",
+    category: "5",
     price: 100000,
     description: "Storage terbagus se-Indonesia.",
     owner: 1,
@@ -43,15 +43,15 @@ const datas = [
 ]
 
 const parseCategoryIdToCategory = id => {
-  if (id === 1) {
+  if (id == 1) {
     return "RAM"
-  } else if (id === 2) {
+  } else if (id == 2) {
     return "Processor"
-  } else if (id === 3) {
+  } else if (id == 3) {
     return "VGA"
-  } else if (id === 4) {
+  } else if (id == 4) {
     return "Motherboard"
-  } else if (id === 5) {
+  } else if (id == 5) {
     return "Storage"
   }
 }
