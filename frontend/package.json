@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "find-computer",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "description": "Find your computer needs.",
+  "version": "0.2.0",
+  "author": "Priambudi Lintang Bagaskara <priambudibagaskara@gmail.com>",
   "dependencies": {
     "axios": "^0.19.2",
     "gatsby": "^2.23.12",
@@ -39,9 +39,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://gitlab.com/priambudi/bagas-findcomputer"
   }
 }
