@@ -72,13 +72,16 @@ const ItemCards = ({ data }) =>
   })
 const IndexPage = () => {
   const [item, setItem] = useState([])
+
   useEffect(() => {
+    console.log(process.env.GATSBY_BACKEND_URL)
     axios
-      .get("http://54.169.240.40:5000/api/item/all", { timeout: 5000 })
+      .get(`${process.env.GATSBY_BACKEND_URL}/api/item/all`, { timeout: 5000 })
       .then(function (response) {
         // handle success
-        setItem(response.data)
+
         console.log(response)
+        // setItem(response.data)
       })
       .catch(function (error) {
         // handle error
