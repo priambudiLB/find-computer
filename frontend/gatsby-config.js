@@ -26,6 +26,12 @@ module.exports = {
         acl: "public-read",
       },
     },
+    {
+      resolve: 'gatsby-plugin-brotli',
+      options: {
+        extensions: ['css', 'html', 'js', 'svg']
+      }
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {

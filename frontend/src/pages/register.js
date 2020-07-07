@@ -13,7 +13,7 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState(null)
   return (
     <Layout>
-      <SEO title="Login" />
+      <SEO title="Register" />
       <div className="real-center">
         <div className="border border-primary padding-large">
           <div className="card-body">

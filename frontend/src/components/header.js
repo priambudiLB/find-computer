@@ -69,8 +69,6 @@ const Header = ({ siteTitle }) => {
                             //use the local storage
                             localStorage.removeItem("u")
                           }
-                          // window.location.reload();
-                          setHelper(1)
                         })
                         .catch(alert)
                     }}
