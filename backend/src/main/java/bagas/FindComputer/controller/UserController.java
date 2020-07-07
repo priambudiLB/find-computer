@@ -117,7 +117,7 @@ public class UserController {
             User u = userRepository.findByEmail(userEmail).get();
             u.setIsLoggedIn(LOGGED_OUT);
             userRepository.save(u);
-            return "Logged out";
+            return "Logged out !!!!!";
         } catch (
                 NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.OK);
