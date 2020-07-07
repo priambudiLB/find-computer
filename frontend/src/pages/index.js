@@ -81,7 +81,7 @@ const IndexPage = () => {
         // handle success
 
         console.log(response)
-        // setItem(response.data)
+        setItem(response.data)
       })
       .catch(function (error) {
         // handle error
