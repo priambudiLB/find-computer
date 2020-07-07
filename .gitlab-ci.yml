@@ -60,13 +60,13 @@ springboot-ec2-deploy:
     - chmod 700 ~/.ssh
   script:
     - scp -o StrictHostKeyChecking=no backend/target/FindComputer-0.0.1-SNAPSHOT.jar ubuntu@ec2-54-254-211-230.ap-southeast-1.compute.amazonaws.com:~/BAGAS
-    # - ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-211-230.ap-southeast-1.compute.amazonaws.com
-    # - cd BAGAS
-    # - ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9
-    # - ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9 
-    # - nohup java -Xmx300m -Xss512k -Djava.security.egd\=file:/dev/./urandom -jar FindComputer-0.0.1-SNAPSHOT.jar &
-    # - PID=$!
-    # - kill $PID
+    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-211-230.ap-southeast-1.compute.amazonaws.com
+    - cd BAGAS
+    - ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9
+    - ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9 
+    - nohup java -Xmx300m -Xss512k -Djava.security.egd\=file:/dev/./urandom -jar FindComputer-0.0.1-SNAPSHOT.jar &
+    - echo -e "server has started\n"
+    - exit 0
 
 gatsby-deploy:
   image: python:latest
