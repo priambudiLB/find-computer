@@ -10,7 +10,7 @@ variables:
 
 stages:
   - build
-  # - test
+  - test
   - deploy
 
 springboot-build:
