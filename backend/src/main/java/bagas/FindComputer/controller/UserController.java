@@ -3,7 +3,6 @@ package bagas.FindComputer.controller;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
 import bagas.FindComputer.model.User;
 import bagas.FindComputer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class UserController {
     @PostMapping(path="/register")
     public User register(@RequestParam Map<String, String> paramMap) {
         try {
-            String userName = paramMap.get("naame");
+            String userName = paramMap.get("name");
             String userEmail = paramMap.get("email");
             String userPassword = paramMap.get("password");
             User u = new User();
@@ -64,8 +63,10 @@ public class UserController {
             )
     public String update(@RequestParam Map<String, String> paramMap) {
         try {
-            Integer userId = Integer.parseInt(paramMap.get("id"));
-            User u = userRepository.findById(userId).get();
+            String userName = paramMap.get("name");
+            String userEmail = paramMap.get("email");
+            User u = userRepository.findByEmail(userEmail).get();
+            u.setName(userName);
             paramMap.forEach((k, v) -> {
                 if (k.equals("name")) {
                     u.setName(v);
