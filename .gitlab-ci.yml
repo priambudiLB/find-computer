@@ -76,5 +76,5 @@ e2e_tests:
     entrypoint: ["/bin/sh", "-c"]
   stage: post-deploy-test
   script:
-    cd frontend
+    - cd frontend
     - /opt/testcafe/docker/testcafe-docker.sh firefox:headless,chromium ./tests/
