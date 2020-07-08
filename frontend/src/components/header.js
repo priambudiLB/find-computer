@@ -12,6 +12,7 @@ const Header = ({ siteTitle }) => {
         <h3>
           <Link
             to="/"
+            id="title"
             style={{
               textDecoration: `none`,
             }}
