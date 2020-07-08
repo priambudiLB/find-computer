@@ -5,6 +5,7 @@ const axios = require("axios").default
 var querystring = require("querystring")
 
 const Header = ({ siteTitle }) => {
+  const [_, setTemp] = useState();
   return (
     <nav className="fixed border fixed split-nav">
       <div className="nav-brand">
@@ -43,12 +44,11 @@ const Header = ({ siteTitle }) => {
                       Profile
                     </Link>
                   </li>
-
                   <li
                     onClick={() => {
                       let email =
                         typeof Storage !== "undefined"
-                          ? JSON.parse(localStorage.getItem("u")).email
+                          ? JSON.parse(localStorage.getItem("u")) ? JSON.parse(localStorage.getItem("u")).email : ''
                           : ""
                       axios
                         .post(
@@ -65,6 +65,7 @@ const Header = ({ siteTitle }) => {
                         )
                         .then(res => {
                           console.log(res)
+                          setTemp(res)
                           if (typeof Storage !== "undefined") {
                             //use the local storage
                             localStorage.removeItem("u")

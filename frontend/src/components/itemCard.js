@@ -1,4 +1,7 @@
 import React from "react"
+import { navigate } from "gatsby"
+const axios = require("axios").default
+var querystring = require("querystring")
 
 const parseCategoryToColor = cat => {
   if (cat === undefined) return "#fff"
@@ -15,10 +18,15 @@ const parseCategoryToColor = cat => {
     return "#111d5e"
   } else return "#fff"
 }
-const ItemCard = ({ id, title, category, price, description }) => {
+const ItemCard = ({ id, title, category, price, description, owner, stock }) => {
+  const deviceName = typeof Storage !== "undefined"
+    ? JSON.parse(localStorage.getItem("u")) ? JSON.parse(localStorage.getItem("u")).name : ''
+    : ""
+  console.log(deviceName, owner)
+  const newOwner = `${owner} ${owner === deviceName ? '(You)' : ''}`
   return (
-    <div id={id} className="sm-6 md-4 col">
-      <div className="card" style={{ width: "15rem" }}>
+    <div key={id} className="sm-6 md-4 col">
+      <div className="card" style={{ width: "15rem", pointerEvents: stock > 0 ? 'default' : 'none', boxShadow: stock > 0 ? 'box-shadow: 15px 28px 25px -18px rgba(0,0,0,0.2)' : 'none' }}>
         <div className="card-body">
           <h4 className="card-title">
             <span
@@ -29,9 +37,36 @@ const ItemCard = ({ id, title, category, price, description }) => {
             </span>{" "}
             {title}
           </h4>
-          <h5 className="card-subtitle">{price}</h5>
+          <div className="row flex-middle"><h5 className="card-subtitle" style={{ color: '#000', textDecoration: stock > 0 ? 'none' : 'line-through red' }}>{price}</h5><span className="margin-left-small">{stock > 0 ? '' : 'Sold Out'}</span></div>
           <p className="card-text">{description}</p>
-          <button aria-label="buy">Buy</button>
+          <div class="row flex-middle flex-edges">
+            <div class="col-8">{newOwner}</div>
+            <div class="col-3">
+              {JSON.parse(localStorage.getItem("u")) && stock > 0 && deviceName !== owner ?
+                <button onClick={() => {
+                  axios
+                    .post(
+                      `${process.env.GATSBY_BACKEND_URL}/api/item/delete`,
+                      querystring.stringify({
+                        itemId: id,
+                      }),
+                      {
+                        headers: {
+                          "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                      }
+                    )
+                    .then(res => {
+                      console.log(res)
+                    })
+                    .catch(alert)
+                    .finally(() => {
+                      navigate("/")
+                    })
+                }} aria-label="buy">Buy</button>
+                : ''}
+            </div>
+          </div>
         </div>
       </div>
     </div>
