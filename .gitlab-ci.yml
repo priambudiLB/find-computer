@@ -12,6 +12,7 @@ stages:
   - build
   - test
   - deploy
+  - post-deploy-test
 
 springboot-build:
   image: maven:3-jdk-8
@@ -32,11 +33,6 @@ gatsby-build:
     paths:
       - frontend/public
 
-gatsby-test:
-  image: node:latest
-  stage: test
-  script: "cd frontend && npm test"
-
 springboot-test:
   image: maven:3-jdk-8
   stage: test
@@ -49,19 +45,23 @@ docker-build-deploy:
     - docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com
     - docker push $CONTAINER_GITLAB_IMAGE
 
-springboot-ec2-deploy:
-  image: alpine
-  stage: deploy
-  before_script:
-    - apk add openssh-client
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-  script:
-    - scp -o StrictHostKeyChecking=no backend/target/FindComputer-0.0.1-SNAPSHOT.jar ubuntu@ec2-54-254-211-230.ap-southeast-1.compute.amazonaws.com:~/BAGAS
-    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-211-230.ap-southeast-1.compute.amazonaws.com "cd BAGAS; ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9; ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9; nohup java -Xmx300m -Xss512k -Djava.security.egd\=file:/dev/./urandom -jar FindComputer-0.0.1-SNAPSHOT.jar &; exit 0"
+# springboot-ec2-deploy:
+#   image: alpine
+#   stage: deploy
+#   before_script:
+#     - apk add openssh-client
+#     - eval $(ssh-agent -s)
+#     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#     - mkdir -p ~/.ssh
+#     - chmod 700 ~/.ssh
+#   script:
+#     - scp -o StrictHostKeyChecking=no backend/target/FindComputer-0.0.1-SNAPSHOT.jar ubuntu@ec2-54-254-211-230.ap-southeast-1.compute.amazonaws.com:~/BAGAS
+#     - ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-211-230.ap-southeast-1.compute.amazonaws.com "docker login -u gitlab-ci-token -p $GITLAB_CI_TOKEN registry.gitlab.com; docker pull $CONTAINER_GITLAB_IMAGE; docker run $CONTAINER_GITLAB_IMAGE"
 
+    # docker build -t registry.gitlab.com/priambudi/bagas-findcomputer:latest .
+    # docker login -u gitlab-ci-token -p pSGDGJtAqDqsm3E_x8ce registry.gitlab.com
+    # docker pull registry.gitlab.com/priambudi/bagas-findcomputer:latest
+    # docker run registry.gitlab.com/priambudi/bagas-findcomputer:latest
 gatsby-deploy:
   image: python:latest
   stage: deploy
@@ -69,3 +69,8 @@ gatsby-deploy:
     - cd frontend
     - pip install awscli
     - aws s3 sync public s3://find-computer/
+    
+gatsby-test:
+  image: node:latest
+  stage: post-deploy-test
+  script: "cd frontend && npm test"
