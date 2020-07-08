@@ -69,8 +69,10 @@ gatsby-deploy:
     - cd frontend
     - pip install awscli
     - aws s3 sync public s3://find-computer/
-    
-gatsby-test:
-  image: node:latest
-  stage: post-deploy-test
-  script: "cd frontend && npm test"
+
+e2e_tests:
+  image:
+    name: testcafe/testcafe
+    entrypoint: ["/bin/sh", "-c"]
+  script:
+    - /opt/testcafe/docker/testcafe-docker.sh firefox:headless,chromium tests/**/*
