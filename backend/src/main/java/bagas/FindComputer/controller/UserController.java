@@ -45,14 +45,18 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping(path="/detail/{id}")
-    public Optional<User> findById(@PathVariable("id") Integer id) {
+    @PostMapping(path="/detail",
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
+            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+    )
+    public User findById(@RequestParam Map<String, String> paramMap) {
+        Integer userId = Integer.parseInt(paramMap.get("id"));
         try {
-            return userRepository.findById(id);
+            return userRepository.findById(userId).get();
         } catch (
                 NoSuchElementException e) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "ID " + id + " Tidak Ditemukan");
+                    HttpStatus.NOT_FOUND, "ID " + userId.toString() + " Tidak Ditemukan");
         }
     }
 
@@ -61,7 +65,7 @@ public class UserController {
             consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
             produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
             )
-    public String update(@RequestParam Map<String, String> paramMap) {
+    public User update(@RequestParam Map<String, String> paramMap) {
         try {
             String userName = paramMap.get("name");
             String userEmail = paramMap.get("email");
@@ -70,12 +74,10 @@ public class UserController {
             paramMap.forEach((k, v) -> {
                 if (k.equals("name")) {
                     u.setName(v);
-                } else if (k.equals("email")) {
-                    u.setEmail(v);
                 }
             });
             userRepository.save(u);
-            return "Updated";
+            return u;
         } catch (
                 NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.OK);

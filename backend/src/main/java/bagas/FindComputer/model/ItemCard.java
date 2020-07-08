@@ -1,25 +1,33 @@
 package bagas.FindComputer.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+public class ItemCard {
 
-@Entity
-public class Item implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
     private String name;
     private String description;
     private Integer categoryId;
+    private String category;
     private Integer price;
-    private Integer stock;
     private Integer ownerId;
+    private String owner;
+    private Integer stock;
+
+    public ItemCard(Item item) {
+        this.id = item.getId();
+        this.name = item.getName();
+        this.description = item.getDescription();
+        this.categoryId = item.getCategoryId();
+        this.price = item.getPrice();
+        this.ownerId = item.getOwnerId();
+        this.stock = item.getStock();
+    }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,8 +50,16 @@ public class Item implements Serializable {
         return categoryId;
     }
 
-    public void setCategoryId(Integer category) {
-        this.categoryId = category;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Integer getPrice() {
@@ -70,4 +86,11 @@ public class Item implements Serializable {
         this.ownerId = ownerId;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 }
