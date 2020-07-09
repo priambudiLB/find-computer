@@ -109,7 +109,7 @@ public class ItemController {
         String owner = userRepository
                 .findById(item.getOwnerId())
                 .get()
-                .getName();
+                .getEmail();
         itemCard.setCategory(category);
         itemCard.setOwner(owner);
         return itemCard;
