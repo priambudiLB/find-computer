@@ -17,4 +17,9 @@ public class CategoryController {
     public @ResponseBody Iterable<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    @GetMapping(path="/test")
+    public @ResponseBody String test() {
+        return "1";
+    }
 }
