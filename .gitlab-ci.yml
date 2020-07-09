@@ -57,8 +57,11 @@ springboot-ec2-deploy:
     - chmod 700 ~/.ssh
   script:
     - scp -o StrictHostKeyChecking=no backend/target/FindComputer-0.0.1-SNAPSHOT.jar $BACKEND_SSH:~
-    - ssh -o StrictHostKeyChecking=no $BACKEND_SSH "ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9; ps aux  |  grep -i java  |  awk '{print $2}'  |  xargs sudo kill -9; nohup java -Xmx300m -Xss512k -Djava.security.egd\=file:/dev/./urandom -jar FindComputer-0.0.1-SNAPSHOT.jar &"
+    - ssh -o StrictHostKeyChecking=no $BACKEND_SSH ps | grep java-fullstack | awk '{print $1}' | xargs kill -9 || true
+    - ssh -o StrictHostKeyChecking=no $BACKEND_SSH nohup java -Xmx300m -Xss512k -Djava.security.egd\=file:/dev/./urandom -jar FindComputer-0.0.1-SNAPSHOT.jar &
     - exit 0
+#     ps | grep java-fullstack | awk '{print $1}' | xargs kill -9 || true
+# env SERVER.PORT=8081 nohup java -jar ./target/java-fullstack-1.0-SNAPSHOT.jar &
     # sudo scp -i "skripsi.pem" ./FindComputer-0.0.1-SNAPSHOT.jar ubuntu@54.179.1.245:~
     # docker build -t registry.gitlab.com/priambudi/bagas-findcomputer:latest .
     # docker login -u gitlab-ci-token -p pSGDGJtAqDqsm3E_x8ce registry.gitlab.com
