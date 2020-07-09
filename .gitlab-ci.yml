@@ -59,6 +59,8 @@ springboot-ec2-deploy:
     - ssh -o StrictHostKeyChecking=no $BACKEND_SSH sudo rm -R FindComputer-0.0.1-SNAPSHOT.jar
     - scp -o StrictHostKeyChecking=no backend/target/FindComputer-0.0.1-SNAPSHOT.jar $BACKEND_SSH:~
     - ssh -o StrictHostKeyChecking=no $BACKEND_SSH killall java || true
+    - ssh -o StrictHostKeyChecking=no $BACKEND_SSH killall java || true
+    - ssh -o StrictHostKeyChecking=no $BACKEND_SSH nohup java -Xmx300m -Xss512k -Djava.security.egd\=file:/dev/./urandom -jar FindComputer-0.0.1-SNAPSHOT.jar &
     - ssh -o StrictHostKeyChecking=no $BACKEND_SSH nohup java -Xmx300m -Xss512k -Djava.security.egd\=file:/dev/./urandom -jar FindComputer-0.0.1-SNAPSHOT.jar &
 #     ps | grep java-fullstack | awk '{print $1}' | xargs kill -9 || true
 # env SERVER.PORT=8081 nohup java -jar ./target/java-fullstack-1.0-SNAPSHOT.jar &
