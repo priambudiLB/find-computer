@@ -20,6 +20,6 @@ public class CategoryController {
 
     @GetMapping(path="/test")
     public @ResponseBody String test() {
-        return "1";
+        return "2";
     }
 }
